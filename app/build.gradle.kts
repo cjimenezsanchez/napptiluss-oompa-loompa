@@ -41,6 +41,10 @@ android {
 
 dependencies {
 
+    implementation(project(Modules.listDetailPresentation))
+    implementation(project(Modules.listDetailDomain))
+    implementation(project(Modules.listDetailData))
+
     implementation(Hilt.android)
     kapt(Hilt.compiler)
 

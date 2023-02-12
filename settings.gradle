@@ -14,3 +14,7 @@ dependencyResolutionManagement {
 }
 rootProject.name = "NapptilusOompaLoompa"
 include ':app'
+include ':list_detail'
+include ':list_detail:domain'
+include ':list_detail:data'
+include ':list_detail:presentation'
