@@ -7,14 +7,13 @@ plugins {
 
 android {
     namespace = "com.jime.listdetail.presentation"
-    compileSdk = 33
+    compileSdk = Project.compileSdk
 
     defaultConfig {
-        minSdk = 24
-        targetSdk = 33
+        minSdk = Project.minSdk
+        targetSdk = Project.compileSdk
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
@@ -26,23 +25,30 @@ android {
             )
         }
     }
+
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
+
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "11"
     }
 }
 
 dependencies {
 
+    implementation(project(Modules.listDetailDomain))
+
     implementation(Hilt.android)
     kapt(Hilt.compiler)
 
-    implementation("androidx.core:core-ktx:1.7.0")
-    implementation("androidx.appcompat:appcompat:1.6.0")
-    implementation("com.google.android.material:material:1.8.0")
+    implementation(AndroidX.core)
+    implementation(AndroidX.appCompat)
+    implementation(AndroidX.viewModel)
+    implementation(AndroidX.runtime)
+    implementation(Material.material)
+
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
