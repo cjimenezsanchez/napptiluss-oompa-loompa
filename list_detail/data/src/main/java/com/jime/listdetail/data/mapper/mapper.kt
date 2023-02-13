@@ -2,10 +2,10 @@ package com.jime.listdetail.data.mapper
 
 import com.jime.listdetail.data.remote.model.OompaLoompaDetailDto
 import com.jime.listdetail.data.remote.model.OompaLoompaDto
-import com.jime.listdetail.data.remote.model.OompaLoompaResponseDto
+import com.jime.listdetail.data.remote.model.OompaLoompaPagingDto
 import com.jime.listdetail.domain.model.*
 
-fun OompaLoompaResponseDto.toDomain(): OompaLoompaPaging {
+fun OompaLoompaPagingDto.toDomain(): OompaLoompaPaging {
     return OompaLoompaPaging(
         currentPage = currentPage,
         totalPages = totalPages,

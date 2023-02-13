@@ -38,6 +38,9 @@ android {
 
 dependencies {
 
+    //remove later
+    implementation("androidx.activity:activity-ktx:1.4.1")
+
     implementation(project(Modules.listDetailDomain))
 
     implementation(Hilt.android)

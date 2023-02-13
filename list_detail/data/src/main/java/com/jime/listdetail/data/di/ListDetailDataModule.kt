@@ -1,7 +1,9 @@
 package com.jime.listdetail.data.di
 
+import com.jime.listdetail.data.error.ErrorHandlerImpl
 import com.jime.listdetail.data.remote.OompaLoompaApi
 import com.jime.listdetail.data.repository.OompaLoompaRepositoryImp
+import com.jime.listdetail.domain.error.ErrorHandler
 import com.jime.listdetail.domain.repository.OompaLoompaRepository
 import dagger.Module
 import dagger.Provides
@@ -40,8 +42,17 @@ object ListDetailDataModule {
 
     @Provides
     @Singleton
-    fun provideOompaLoompaRepository(oompaLoompaApi: OompaLoompaApi): OompaLoompaRepository {
-        return OompaLoompaRepositoryImp(oompaLoompaApi)
+    fun provideOompaLoompaRepository(
+        oompaLoompaApi: OompaLoompaApi,
+        errorHandler: ErrorHandler
+    ): OompaLoompaRepository {
+        return OompaLoompaRepositoryImp(oompaLoompaApi, errorHandler)
+    }
+
+    @Provides
+    @Singleton
+    fun provideErrorHandler(): ErrorHandler {
+        return ErrorHandlerImpl()
     }
 
 }
