@@ -34,20 +34,29 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
+    
+    viewBinding {
+        enable = true
+    }
 }
 
 dependencies {
-
-    //remove later
-    implementation("androidx.activity:activity-ktx:1.4.1")
 
     implementation(project(Modules.listDetailDomain))
 
     implementation(Hilt.android)
     kapt(Hilt.compiler)
 
+    implementation(Navigation.runtime)
+    implementation(Navigation.fragment)
+    implementation(Navigation.ui)
+
+    implementation(Glide.glide)
+    kapt(Glide.compiler)
+
     implementation(AndroidX.core)
     implementation(AndroidX.appCompat)
+    implementation(AndroidX.fragment)
     implementation(AndroidX.viewModel)
     implementation(AndroidX.runtime)
     implementation(Material.material)

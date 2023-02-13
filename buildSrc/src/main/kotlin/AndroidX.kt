@@ -10,6 +10,8 @@ object AndroidX {
     const val viewModel = "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifeCycleVersion"
     const val runtime = "androidx.lifecycle:lifecycle-runtime-ktx:$lifeCycleVersion"
 
+    private const val fragmentVersion = "1.4.1"
+    const val fragment = "androidx.fragment:fragment-ktx:$fragmentVersion"
 
 
 }

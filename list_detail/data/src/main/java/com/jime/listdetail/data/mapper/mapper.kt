@@ -18,6 +18,7 @@ fun OompaLoompaDto.toDomain(): OompaLoompa {
         id = id,
         name = name,
         lastName = lastName,
+        email = email,
         profession = Profession.fromString(profession),
         gender = Gender.fromString(gender),
         image = image
