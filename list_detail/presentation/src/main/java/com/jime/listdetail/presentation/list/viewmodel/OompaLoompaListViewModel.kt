@@ -29,11 +29,18 @@ class OompaLoompaListViewModel @Inject constructor(
     private var _navigateToDetail: MutableLiveData<Event<Int>> = MutableLiveData()
     val navigateToDetail: LiveData<Event<Int>> = _navigateToDetail
 
-    fun fetchOompaLoompaByPage() {
+    private var totalPages = 0
+
+    fun fetchOompaLoompaByPage(page: Int = 1) {
         viewModelScope.launch {
             val result = withContext(iODispatcher) {
-                oompaLoompaRepository.fetchOompaLoompaByPage(1)
+                oompaLoompaRepository.fetchOompaLoompaByPage(page)
             }
+
+            if (result is Resource.Success) {
+                totalPages = result.data.totalPages
+            }
+
             _oompaLoompa.value = result
         }
     }

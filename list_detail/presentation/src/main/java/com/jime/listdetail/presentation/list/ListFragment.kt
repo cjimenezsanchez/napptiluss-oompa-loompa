@@ -7,10 +7,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.jime.listdetail.domain.Resource
+import com.jime.listdetail.domain.model.OompaLoompa
 import com.jime.listdetail.domain.model.OompaLoompaPaging
 import com.jime.listdetail.presentation.databinding.FragmentListBinding
 import com.jime.listdetail.presentation.list.adapter.OompaLoompaListAdapter
+import com.jime.listdetail.presentation.list.adapter.PagingScrollListener
 import com.jime.listdetail.presentation.list.viewmodel.OompaLoompaListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -19,7 +22,9 @@ class ListFragment : Fragment() {
 
     private var _binding: FragmentListBinding? = null
     private val binding get() = _binding!!
+
     private lateinit var adapter: OompaLoompaListAdapter
+    private lateinit var pagingListener: PagingScrollListener
 
     private val viewModel: OompaLoompaListViewModel by viewModels()
 
@@ -35,15 +40,11 @@ class ListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val recyclerView = binding.list
-        adapter = OompaLoompaListAdapter(
-            onItemClicked = { id ->
-                viewModel.onOompaLoompaClicked(id)
-            })
-        recyclerView.adapter = adapter
-
-        viewModel.fetchOompaLoompaByPage()
+        initList()
+        fetchOompaLoompaPage()
+        observeUiChanges()
+    }
+    private fun observeUiChanges() {
         viewModel.oompaLoompa.observe(viewLifecycleOwner) { result ->
             handleResult(result)
         }
@@ -55,15 +56,53 @@ class ListFragment : Fragment() {
         }
     }
 
+    private fun initList() {
+        adapter = OompaLoompaListAdapter(
+            onItemClicked = { id ->
+                viewModel.onOompaLoompaClicked(id)
+            })
+
+        val recyclerView = binding.list
+        val layoutManager = LinearLayoutManager(context)
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager = layoutManager
+
+        pagingListener = PagingScrollListener(
+            layoutManager = layoutManager,
+            onPageFinished = { page ->
+                fetchOompaLoompaPage(page + 1)
+            }
+        )
+
+        recyclerView.addOnScrollListener(pagingListener)
+    }
+
+    private fun fetchOompaLoompaPage(page: Int = 1) {
+        pagingListener.isLoading = true
+        viewModel.fetchOompaLoompaByPage(page)
+    }
+
     private fun handleResult(result: Resource<OompaLoompaPaging>) {
         when (result) {
             is Resource.Success -> {
-                adapter.addItems(result.data.oompaLoompaList)
+                updatePaginatingInfo(result.data.currentPage, result.data.totalPages)
+                updateOompaLoompaList(result.data.oompaLoompaList)
             }
             is Resource.Failure -> {
 
             }
         }
+        pagingListener.isLoading = false
+    }
+
+    private fun updatePaginatingInfo(currentPage: Int, totalPages: Int) {
+        if (currentPage == 4) {
+            pagingListener.isLastPage = true
+        }
+    }
+
+    private fun updateOompaLoompaList(list: List<OompaLoompa>) {
+        adapter.addItems(list)
     }
 
     private fun navigateToDetail(id: Int) {
