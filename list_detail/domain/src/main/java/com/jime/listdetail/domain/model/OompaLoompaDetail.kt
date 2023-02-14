@@ -1,7 +1,7 @@
 package com.jime.listdetail.domain.model
 
 class OompaLoompaDetail(
-    id: String,
+    id: Int,
     name: String,
     lastName: String,
     email: String,
@@ -13,6 +13,7 @@ class OompaLoompaDetail(
     val description: String,
     val country: String,
     val quota: String,
+    val favoriteSong: String,
     val favoriteColor: String,
     val favoriteFood: String,
 ) : OompaLoompa(

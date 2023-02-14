@@ -1,6 +1,250 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fillViewport="true">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <RelativeLayout
+        android:padding="@dimen/regular_margin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/progress"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:visibility="gone">
+
+            <ProgressBar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center" />
+
+        </LinearLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/detail_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/profile_pic"
+                android:layout_width="@dimen/icon_extra_large"
+                android:layout_height="@dimen/icon_extra_large"
+                android:contentDescription="@string/profile_picture_content_description"
+                android:scaleType="fitXY"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:shapeAppearanceOverlay="@style/roundedImageView"
+                tools:src="@tools:sample/backgrounds/scenic" />
+
+            <TextView
+                android:id="@+id/name_header"
+                style="@style/HeaderTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/regular_margin"
+                android:text="@string/name"
+                app:layout_constraintStart_toEndOf="@+id/profile_pic"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/name"
+                style="@style/InfoTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/small_margin"
+                app:layout_constraintStart_toStartOf="@+id/name_header"
+                app:layout_constraintTop_toBottomOf="@+id/name_header"
+                tools:text="Carlos" />
+
+            <TextView
+                android:id="@+id/last_name_header"
+                style="@style/HeaderTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/last_name"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/name_header"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/last_name"
+                style="@style/InfoTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/small_margin"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/last_name_header"
+                app:layout_constraintTop_toBottomOf="@+id/last_name_header"
+                tools:text="Jimenez" />
+
+            <TextView
+                android:id="@+id/email_header"
+                style="@style/HeaderTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/small_margin"
+                android:text="@string/email"
+                app:layout_constraintStart_toStartOf="@+id/name_header"
+                app:layout_constraintTop_toBottomOf="@+id/name" />
+
+            <TextView
+                android:id="@+id/email"
+                style="@style/InfoTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="@+id/name"
+                app:layout_constraintTop_toBottomOf="@+id/email_header"
+                tools:text="email@email.com" />
+
+            <TextView
+                android:id="@+id/profession_header"
+                style="@style/HeaderTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/small_margin"
+                android:text="@string/profession"
+                app:layout_constraintStart_toStartOf="@+id/name_header"
+                app:layout_constraintTop_toBottomOf="@+id/email" />
+
+            <TextView
+                android:id="@+id/profession"
+                style="@style/InfoTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="@+id/name"
+                app:layout_constraintTop_toBottomOf="@+id/profession_header"
+                tools:text="Developer" />
+
+            <TextView
+                android:id="@+id/detail_info_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/regular_margin"
+                android:text="@string/detail_info"
+                android:textColor="@color/purple_700"
+                android:textSize="@dimen/large_font_size"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/profession" />
+
+            <TextView
+                android:id="@+id/gender_header"
+                style="@style/HeaderTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/regular_margin"
+                android:layout_marginTop="@dimen/regular_margin"
+                android:text="@string/gender"
+                app:layout_constraintStart_toStartOf="@+id/detail_info_header"
+                app:layout_constraintTop_toBottomOf="@+id/detail_info_header" />
+
+            <TextView
+                android:id="@+id/gender"
+                style="@style/InfoTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/small_margin"
+                android:textColor="@color/black"
+                app:layout_constraintStart_toStartOf="@+id/gender_header"
+                app:layout_constraintTop_toBottomOf="@+id/gender_header"
+                tools:text="Male" />
+
+            <TextView
+                android:id="@+id/country_header"
+                style="@style/HeaderTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/country"
+                app:layout_constraintStart_toStartOf="@+id/name_header"
+                app:layout_constraintTop_toTopOf="@+id/gender_header" />
+
+            <TextView
+                android:id="@+id/country"
+                style="@style/InfoTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/small_margin"
+                app:layout_constraintStart_toStartOf="@+id/country_header"
+                app:layout_constraintTop_toBottomOf="@+id/country_header"
+                tools:text="Spain" />
+
+            <TextView
+                android:id="@+id/age_header"
+                style="@style/HeaderTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/age"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/country_header"
+                app:layout_constraintTop_toTopOf="@+id/gender_header" />
+
+            <TextView
+                android:id="@+id/age"
+                style="@style/InfoTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/small_margin"
+                app:layout_constraintStart_toStartOf="@+id/age_header"
+                app:layout_constraintTop_toBottomOf="@+id/age_header"
+                tools:text="21" />
+
+            <TextView
+                android:id="@+id/description_header"
+                style="@style/HeaderTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/regular_margin"
+                android:text="@string/description"
+                app:layout_constraintStart_toStartOf="@+id/gender_header"
+                app:layout_constraintTop_toBottomOf="@+id/gender" />
+
+            <TextView
+                android:id="@+id/description"
+                style="@style/InfoTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="@dimen/small_margin"
+                android:paddingEnd="@dimen/small_margin"
+                android:layout_marginStart="@dimen/regular_margin"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:text="Description"
+                app:layout_constraintStart_toStartOf="@+id/gender_header"
+                app:layout_constraintTop_toBottomOf="@+id/description_header" />
+
+            <TextView
+                android:id="@+id/favorite_song_header"
+                style="@style/HeaderTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/regular_margin"
+                android:text="@string/favorite_song"
+                app:layout_constraintStart_toStartOf="@+id/gender_header"
+                app:layout_constraintTop_toBottomOf="@+id/description" />
+
+            <TextView
+                android:id="@+id/favorite_song"
+                style="@style/InfoTextView"
+                android:textStyle="italic"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="@dimen/small_margin"
+                android:paddingEnd="@dimen/small_margin"
+                android:layout_marginStart="@dimen/regular_margin"
+                tools:text="@string/favorite_song"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/gender_header"
+                app:layout_constraintTop_toBottomOf="@+id/favorite_song_header" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </RelativeLayout>
+
+</ScrollView>

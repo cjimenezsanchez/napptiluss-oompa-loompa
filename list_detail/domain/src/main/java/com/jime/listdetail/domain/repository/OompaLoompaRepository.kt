@@ -8,6 +8,6 @@ interface OompaLoompaRepository {
 
     suspend fun fetchOompaLoompaByPage(page: Int): Resource<OompaLoompaPaging>
 
-    suspend fun fetchOompaLoompaById(id: String): Resource<OompaLoompaDetail>
+    suspend fun fetchOompaLoompaById(id: Int): Resource<OompaLoompaDetail>
 
 }

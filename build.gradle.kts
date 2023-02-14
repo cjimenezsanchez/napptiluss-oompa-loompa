@@ -5,4 +5,5 @@ plugins {
     id("org.jetbrains.kotlin.android") version "1.7.21" apply false
     id("org.jetbrains.kotlin.jvm") version "1.7.21" apply false
     id(Hilt.plugin) version Hilt.version apply false
+    id(Navigation.safeArgsPlugin) version Navigation.version apply false
 }

@@ -4,18 +4,23 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
+import com.jime.listdetail.domain.model.Gender
 import com.jime.listdetail.domain.model.OompaLoompa
+import com.jime.listdetail.presentation.R
 import com.jime.listdetail.presentation.databinding.OompaLoompaItemBinding
 
 class OompaLoompaListAdapter(
     private val items: MutableList<OompaLoompa> = mutableListOf(),
-    private val onItemClicked: (String) -> Unit
+    private val onItemClicked: (Int) -> Unit
 ) : RecyclerView.Adapter<OompaLoompaListAdapter.ViewHolder>() {
 
     fun addItems(newItems: List<OompaLoompa>) {
         items.addAll(newItems)
-        notifyItemRangeInserted(items.size, newItems.size)    }
+        notifyItemRangeInserted(items.size, newItems.size)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val item =
@@ -37,7 +42,8 @@ class OompaLoompaListAdapter(
         holder.bind(item)
     }
 
-    inner class ViewHolder(binding: OompaLoompaItemBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class ViewHolder(binding: OompaLoompaItemBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
         private val name: TextView = binding.name
         private val profession: TextView = binding.profession
@@ -45,11 +51,11 @@ class OompaLoompaListAdapter(
         private val profilePic: ImageView = binding.profilePic
 
         fun bind(oompaLoompa: OompaLoompa) {
-            val fullName = oompaLoompa.name + oompaLoompa.lastName
+            val fullName = "${oompaLoompa.name} ${oompaLoompa.lastName}"
             name.text = fullName
             email.text = oompaLoompa.email
             profession.text = oompaLoompa.profession.name
-
+            profilePic.load(oompaLoompa.image)
 
             itemView.setOnClickListener {
                 onItemClicked(oompaLoompa.id)
@@ -57,3 +63,5 @@ class OompaLoompaListAdapter(
         }
     }
 }
+
+

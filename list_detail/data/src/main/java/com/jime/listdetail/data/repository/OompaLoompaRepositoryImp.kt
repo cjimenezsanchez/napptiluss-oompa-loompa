@@ -23,7 +23,7 @@ class OompaLoompaRepositoryImp @Inject constructor(
         }
     }
 
-    override suspend fun fetchOompaLoompaById(id: String): Resource<OompaLoompaDetail> {
+    override suspend fun fetchOompaLoompaById(id: Int): Resource<OompaLoompaDetail> {
         return try {
             val result = remoteDataSource.getOompaLoompaById(id).toDomain()
             Resource.Success(result)

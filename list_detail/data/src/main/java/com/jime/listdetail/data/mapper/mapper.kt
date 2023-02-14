@@ -40,6 +40,7 @@ fun OompaLoompaDetailDto.toDomain(): OompaLoompaDetail {
         country = country,
         quota = quota,
         favoriteColor = favoriteStuff.color,
-        favoriteFood = favoriteStuff.food
+        favoriteFood = favoriteStuff.food,
+        favoriteSong = favoriteStuff.song
     )
 }

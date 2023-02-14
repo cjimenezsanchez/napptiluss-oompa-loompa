@@ -2,6 +2,7 @@ plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
     id("com.google.dagger.hilt.android")
+    id("androidx.navigation.safeargs.kotlin")
     kotlin("kapt")
 }
 
@@ -43,6 +44,7 @@ android {
 dependencies {
 
     implementation(project(Modules.listDetailDomain))
+    implementation(project(Modules.coreUi))
 
     implementation(Hilt.android)
     kapt(Hilt.compiler)
@@ -51,8 +53,7 @@ dependencies {
     implementation(Navigation.fragment)
     implementation(Navigation.ui)
 
-    implementation(Glide.glide)
-    kapt(Glide.compiler)
+    implementation(Coil.coil)
 
     implementation(AndroidX.core)
     implementation(AndroidX.appCompat)

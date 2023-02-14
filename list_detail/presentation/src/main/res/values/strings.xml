@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="profile_picture_content_description">Profile picture</string>
+    <string name="gender_content_description">Gender</string>
+    <string name="last_name">Last name</string>
+    <string name="name">Name</string>
+    <string name="gender">Gender</string>
+    <string name="country">Country</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="developer">Developer</string>
+    <string name="brewer">Brewer</string>
+    <string name="medic">Medic</string>
+    <string name="gemcutter">Gemcutter</string>
+    <string name="metalworker">Metalworker</string>
+    <string name="unknown">Unknown</string>
+    <string name="email">Email</string>
+    <string name="profession">Profession</string>
+    <string name="detail_info">Detail information</string>
+    <string name="description">Description</string>
+    <string name="favorite_song">Favorite song</string>
+    <string name="age">Age</string>
+
+
+</resources>

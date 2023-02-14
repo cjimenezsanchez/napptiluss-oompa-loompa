@@ -16,6 +16,6 @@ interface OompaLoompaApi {
     suspend fun getOompaLoompaByPage(@Query("page") page: Int = 1): OompaLoompaPagingDto
 
     @GET("/napptilus/oompa-loompas/{id}")
-    suspend fun getOompaLoompaById(@Path("id") id: String): OompaLoompaDetailDto
+    suspend fun getOompaLoompaById(@Path("id") id: Int): OompaLoompaDetailDto
 
 }
