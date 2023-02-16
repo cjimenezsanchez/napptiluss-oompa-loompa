@@ -42,14 +42,26 @@
         app:layout_constraintTop_toBottomOf="@+id/name"
         tools:text="laponia@claus.com" />
 
+    <ImageView
+        android:id="@+id/profession_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/small_margin"
+        android:layout_marginTop="@dimen/small_margin"
+        android:contentDescription="@string/profession_icon"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/email"
+        app:layout_constraintTop_toBottomOf="@+id/email"
+        tools:text="Brewer" />
+
     <TextView
         android:id="@+id/profession"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:drawableStartCompat="@drawable/ic_work"
         android:layout_marginEnd="@dimen/regular_margin"
+        android:layout_marginStart="@dimen/small_margin"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/email"
+        app:layout_constraintStart_toEndOf="@+id/profession_icon"
         app:layout_constraintTop_toBottomOf="@+id/email"
         tools:text="Brewer" />
 

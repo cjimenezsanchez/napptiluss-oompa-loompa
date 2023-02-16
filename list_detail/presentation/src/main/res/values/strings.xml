@@ -21,6 +21,8 @@
     <string name="description">Description</string>
     <string name="favorite_song">Favorite song</string>
     <string name="age">Age</string>
+    <string name="all">All</string>
+    <string name="profession_icon">Profession icon</string>
 
 
 </resources>

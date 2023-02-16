@@ -24,6 +24,7 @@ class DetailFragment : Fragment() {
 
     private val viewModel: OompaLoompaDetailViewModel by viewModels()
     private val arguments: DetailFragmentArgs by navArgs()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -71,7 +72,7 @@ class DetailFragment : Fragment() {
             gender.text = getString(oompaLoompa.gender.getStringId())
             country.text = oompaLoompa.country
             profession.text = getString(oompaLoompa.profession.getStringId())
-            description.text =  Html.fromHtml(oompaLoompa.description, Html.FROM_HTML_MODE_COMPACT)
+            description.text = Html.fromHtml(oompaLoompa.description, Html.FROM_HTML_MODE_COMPACT)
             favoriteSong.text = oompaLoompa.favoriteSong
             age.text = oompaLoompa.age.toString()
         }

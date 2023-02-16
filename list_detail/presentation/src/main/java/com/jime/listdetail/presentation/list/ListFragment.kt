@@ -8,12 +8,15 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.jime.listdetail.domain.Resource
+import androidx.recyclerview.widget.RecyclerView
+import com.jime.listdetail.domain.error.Error
 import com.jime.listdetail.domain.model.OompaLoompa
-import com.jime.listdetail.domain.model.OompaLoompaPaging
 import com.jime.listdetail.presentation.databinding.FragmentListBinding
+import com.jime.listdetail.presentation.list.adapter.FilterAdapter
 import com.jime.listdetail.presentation.list.adapter.OompaLoompaListAdapter
 import com.jime.listdetail.presentation.list.adapter.PagingScrollListener
+import com.jime.listdetail.presentation.list.model.ListUiState
+import com.jime.listdetail.presentation.list.model.State
 import com.jime.listdetail.presentation.list.viewmodel.OompaLoompaListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -23,7 +26,8 @@ class ListFragment : Fragment() {
     private var _binding: FragmentListBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var adapter: OompaLoompaListAdapter
+    private lateinit var listAdapter: OompaLoompaListAdapter
+    private lateinit var filterAdapter: FilterAdapter
     private lateinit var pagingListener: PagingScrollListener
 
     private val viewModel: OompaLoompaListViewModel by viewModels()
@@ -33,20 +37,24 @@ class ListFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         _binding = FragmentListBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initFilterList()
         initList()
-        fetchOompaLoompaPage()
         observeUiChanges()
+        fetchOompaLoompaPage()
     }
     private fun observeUiChanges() {
-        viewModel.oompaLoompa.observe(viewLifecycleOwner) { result ->
-            handleResult(result)
+        viewModel.currentFilter.observe(viewLifecycleOwner) {filter ->
+            filterAdapter.updateSelectedFilter(filter)
+        }
+
+        viewModel.uiState.observe(viewLifecycleOwner) {uiState ->
+            handleNewUiState(uiState)
         }
 
         viewModel.navigateToDetail.observe(viewLifecycleOwner) { event ->
@@ -56,15 +64,25 @@ class ListFragment : Fragment() {
         }
     }
 
+    private fun initFilterList() {
+        filterAdapter = FilterAdapter {
+            viewModel.onFilterClicked(it)
+        }
+        val filterRecyclerView = binding.filterList
+        val layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
+        filterRecyclerView.adapter = filterAdapter
+        filterRecyclerView.layoutManager = layoutManager
+    }
+
     private fun initList() {
-        adapter = OompaLoompaListAdapter(
+        listAdapter = OompaLoompaListAdapter(
             onItemClicked = { id ->
                 viewModel.onOompaLoompaClicked(id)
             })
 
         val recyclerView = binding.list
         val layoutManager = LinearLayoutManager(context)
-        recyclerView.adapter = adapter
+        recyclerView.adapter = listAdapter
         recyclerView.layoutManager = layoutManager
 
         pagingListener = PagingScrollListener(
@@ -82,27 +100,54 @@ class ListFragment : Fragment() {
         viewModel.fetchOompaLoompaByPage(page)
     }
 
-    private fun handleResult(result: Resource<OompaLoompaPaging>) {
-        when (result) {
-            is Resource.Success -> {
-                updatePaginatingInfo(result.data.currentPage, result.data.totalPages)
-                updateOompaLoompaList(result.data.oompaLoompaList)
+    private fun handleNewUiState(uiState: ListUiState) {
+        when (uiState.state) {
+            State.LOADING -> {
+                onLoading()
             }
-            is Resource.Failure -> {
-
+            State.LOADED -> {
+                onFinishLoading()
+                updatePaginatingInfo(uiState.currentPage, uiState.totalPages)
+                updateOompaLoompaList(uiState.list)
+            }
+            State.ERROR -> {
+                onFinishLoading()
+                showError(uiState.error)
+                updatePaginatingInfo(uiState.currentPage, uiState.totalPages)
             }
         }
-        pagingListener.isLoading = false
+    }
+
+    private fun onLoading() {
+        listAdapter.onLoadingItems()
+    }
+
+    private fun onFinishLoading() {
+        listAdapter.onFinishedLoadingItems()
+    }
+
+    private fun showError(error: Error?) {
+        error?.let {
+            when (error) {
+                Error.Network -> {}
+                Error.Unknown -> {}
+                Error.NotFound -> {}
+                Error.ServiceUnavailable -> {}
+                Error.UnAuthorized -> {}
+            }
+        }
     }
 
     private fun updatePaginatingInfo(currentPage: Int, totalPages: Int) {
-        if (currentPage == 4) {
+        pagingListener.isLoading = false
+        pagingListener.currentPage = currentPage
+        if (currentPage == totalPages) {
             pagingListener.isLastPage = true
         }
     }
 
     private fun updateOompaLoompaList(list: List<OompaLoompa>) {
-        adapter.addItems(list)
+        listAdapter.addItems(list)
     }
 
     private fun navigateToDetail(id: Int) {

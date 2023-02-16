@@ -25,6 +25,10 @@ class OompaLoompaDetailViewModel @Inject constructor(
     val progressVisible: LiveData<Boolean> = _progressVisible
 
     fun getOompaLoompaById(id: Int) {
+        if (oompaLoompaAlreadyLoaded()) {
+            return
+        }
+
         viewModelScope.launch {
             _progressVisible.value = true
 
@@ -35,5 +39,7 @@ class OompaLoompaDetailViewModel @Inject constructor(
             _oompaLoompa.value = result
         }
     }
+
+    private fun oompaLoompaAlreadyLoaded() = oompaLoompa.value is Resource.Success
 
 }

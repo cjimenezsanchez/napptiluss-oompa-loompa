@@ -19,7 +19,14 @@ class OompaLoompaRepositoryImp @Inject constructor(
             val result = remoteDataSource.getOompaLoompaByPage(page).toDomain()
             Resource.Success(result)
         } catch (t: Throwable) {
-            Resource.Failure(errorHandler.getError(t))
+            Resource.Failure(
+                error = errorHandler.getError(t),
+                data = OompaLoompaPaging(
+                    totalPages = -1,
+                    currentPage = page,
+                    oompaLoompaList = emptyList()
+                )
+            )
         }
     }
 
