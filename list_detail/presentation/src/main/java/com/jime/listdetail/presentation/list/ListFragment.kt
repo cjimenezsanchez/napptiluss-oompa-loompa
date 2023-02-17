@@ -9,8 +9,10 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import com.jime.listdetail.domain.error.Error
 import com.jime.listdetail.domain.model.OompaLoompa
+import com.jime.listdetail.presentation.R
 import com.jime.listdetail.presentation.databinding.FragmentListBinding
 import com.jime.listdetail.presentation.list.adapter.FilterAdapter
 import com.jime.listdetail.presentation.list.adapter.OompaLoompaListAdapter
@@ -18,6 +20,7 @@ import com.jime.listdetail.presentation.list.adapter.PagingScrollListener
 import com.jime.listdetail.presentation.list.model.ListUiState
 import com.jime.listdetail.presentation.list.model.State
 import com.jime.listdetail.presentation.list.viewmodel.OompaLoompaListViewModel
+import com.jime.listdetail.presentation.util.getStringId
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -48,12 +51,13 @@ class ListFragment : Fragment() {
         observeUiChanges()
         fetchOompaLoompaPage()
     }
+
     private fun observeUiChanges() {
-        viewModel.currentFilter.observe(viewLifecycleOwner) {filter ->
+        viewModel.currentFilter.observe(viewLifecycleOwner) { filter ->
             filterAdapter.updateSelectedFilter(filter)
         }
 
-        viewModel.uiState.observe(viewLifecycleOwner) {uiState ->
+        viewModel.uiState.observe(viewLifecycleOwner) { uiState ->
             handleNewUiState(uiState)
         }
 
@@ -128,13 +132,8 @@ class ListFragment : Fragment() {
 
     private fun showError(error: Error?) {
         error?.let {
-            when (error) {
-                Error.Network -> {}
-                Error.Unknown -> {}
-                Error.NotFound -> {}
-                Error.ServiceUnavailable -> {}
-                Error.UnAuthorized -> {}
-            }
+            val message = getString(error.getStringId())
+            Snackbar.make(binding.root, message, Snackbar.LENGTH_SHORT).show()
         }
     }
 

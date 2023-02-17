@@ -1,16 +1,20 @@
 package com.jime.listdetail.presentation.detail
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import coil.load
 import com.jime.listdetail.domain.Resource
+import com.jime.listdetail.domain.error.Error
 import com.jime.listdetail.domain.model.OompaLoompaDetail
+import com.jime.listdetail.presentation.R
 import com.jime.listdetail.presentation.databinding.FragmentDetailBinding
 import com.jime.listdetail.presentation.detail.viewmodel.OompaLoompaDetailViewModel
 import com.jime.listdetail.presentation.util.getStringId
@@ -24,6 +28,7 @@ class DetailFragment : Fragment() {
 
     private val viewModel: OompaLoompaDetailViewModel by viewModels()
     private val arguments: DetailFragmentArgs by navArgs()
+    private var oompaLoompaId: Int = 0
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,7 +43,8 @@ class DetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.getOompaLoompaById(arguments.argId)
+        oompaLoompaId = arguments.argId
+        viewModel.getOompaLoompaById(oompaLoompaId)
         viewModel.oompaLoompa.observe(viewLifecycleOwner) { result ->
             when (result) {
                 is Resource.Success -> {
@@ -46,13 +52,22 @@ class DetailFragment : Fragment() {
                     showDetail()
                 }
                 is Resource.Failure -> {
-                    //show error
+                    showError(result.error)
                 }
             }
         }
         viewModel.progressVisible.observe(viewLifecycleOwner) {
             updateProgressVisibility(it)
         }
+    }
+
+    private fun showError(error: Error) {
+        val dialog = AlertDialog.Builder(requireContext())
+            .setMessage(getString(error.getStringId()))
+            .setPositiveButton(
+                R.string.retry
+            ) { _, _ -> viewModel.getOompaLoompaById(oompaLoompaId) }
+        dialog.show()
     }
 
     private fun showDetail() {

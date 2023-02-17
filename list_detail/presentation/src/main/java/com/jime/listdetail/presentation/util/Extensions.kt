@@ -2,6 +2,7 @@ package com.jime.listdetail.presentation.util
 
 import com.jime.listdetail.domain.model.Gender
 import com.jime.listdetail.domain.model.Profession
+import com.jime.listdetail.domain.error.Error
 import com.jime.listdetail.presentation.R
 import com.jime.listdetail.presentation.list.filter.ProfessionFilter
 
@@ -34,10 +35,20 @@ fun Profession.getDrawableId(): Int {
     }
 }
 
+fun Error.getStringId(): Int {
+    return when (this) {
+        is Error.Network -> R.string.network_error
+        Error.NotFound -> R.string.not_found_error
+        Error.ServiceUnavailable -> R.string.server_error
+        Error.UnAuthorized -> R.string.unauthorized_error
+        Error.Unknown -> R.string.unknown_error
+    }
+}
+
 infix fun ProfessionFilter.sameAs(filter: ProfessionFilter): Boolean {
     return when (this) {
         is ProfessionFilter.None -> {
-           filter is ProfessionFilter.None
+            filter is ProfessionFilter.None
         }
         is ProfessionFilter.ByType -> {
             when (filter) {

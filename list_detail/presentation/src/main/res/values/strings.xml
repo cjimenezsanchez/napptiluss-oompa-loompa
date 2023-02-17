@@ -23,6 +23,12 @@
     <string name="age">Age</string>
     <string name="all">All</string>
     <string name="profession_icon">Profession icon</string>
+    <string name="network_error">Network error</string>
+    <string name="unknown_error">Unknown error</string>
+    <string name="not_found_error">Not found error</string>
+    <string name="server_error">Server error</string>
+    <string name="unauthorized_error">Unauthorized error</string>
+    <string name="retry">Retry</string>
 
 
 </resources>

@@ -12,7 +12,7 @@ class PagingScrollListener(
 
     var isLastPage = false
     var isLoading = false
-    var currentPage = 0
+    var currentPage = 1
 
     override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
         super.onScrolled(recyclerView, dx, dy)

@@ -14,7 +14,7 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class OompaLoompaRepositoryImp @Inject constructor(
-    private val remoteDataSource: OompaLoompaApi,
+    private val api: OompaLoompaApi,
     private val errorHandler: ErrorHandler,
     @IoDispatcher private val iODispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : OompaLoompaRepository {
@@ -22,7 +22,7 @@ class OompaLoompaRepositoryImp @Inject constructor(
     override suspend fun fetchOompaLoompaByPage(page: Int): Resource<OompaLoompaPaging> =
         withContext(iODispatcher) {
             try {
-                val result = remoteDataSource.getOompaLoompaByPage(page).toDomain()
+                val result = api.getOompaLoompaByPage(page).toDomain()
                 Resource.Success(result)
 
             } catch (t: Throwable) {
@@ -40,7 +40,7 @@ class OompaLoompaRepositoryImp @Inject constructor(
     override suspend fun fetchOompaLoompaById(id: Int): Resource<OompaLoompaDetail> =
         withContext(iODispatcher) {
             try {
-                val result = remoteDataSource.getOompaLoompaById(id).toDomain()
+                val result = api.getOompaLoompaById(id).toDomain()
                 Resource.Success(result)
             } catch (t: Throwable) {
                 Resource.Failure(errorHandler.getError(t))
