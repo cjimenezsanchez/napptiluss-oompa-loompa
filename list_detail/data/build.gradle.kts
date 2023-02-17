@@ -48,10 +48,13 @@ dependencies {
     implementation(Retrofit.gson)
     implementation(Retrofit.gsonAdapter)
 
+    implementation(Room.runtime)
+    kapt(Room.compiler)
+    implementation(Room.coroutines)
+
     implementation(Hilt.android)
     kapt(Hilt.compiler)
 
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    testImplementation(Testing.junit)
+    androidTestImplementation(Testing.androidJunit)
 }

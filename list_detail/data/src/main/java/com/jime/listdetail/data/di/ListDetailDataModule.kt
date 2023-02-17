@@ -1,6 +1,10 @@
 package com.jime.listdetail.data.di
 
+import android.app.Application
+import androidx.room.Room
 import com.jime.listdetail.data.error.ErrorHandlerImpl
+import com.jime.listdetail.data.local.OompaLoompaDao
+import com.jime.listdetail.data.local.OompaLoompaDatabase
 import com.jime.listdetail.data.remote.OompaLoompaApi
 import com.jime.listdetail.data.repository.OompaLoompaRepositoryImp
 import com.jime.listdetail.domain.error.ErrorHandler
@@ -9,13 +13,10 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import javax.inject.Qualifier
 import javax.inject.Singleton
 
 
@@ -43,13 +44,30 @@ object ListDetailDataModule {
             .create(OompaLoompaApi::class.java)
     }
 
+    @Singleton
+    @Provides
+    fun provideDatabase(application: Application): OompaLoompaDatabase {
+        return Room.databaseBuilder(
+            application,
+            OompaLoompaDatabase::class.java,
+            "oompaLoompa"
+        ).build()
+    }
+
+    @Singleton
+    @Provides
+    fun provideDao(database: OompaLoompaDatabase): OompaLoompaDao {
+        return database.dao
+    }
+
     @Provides
     @Singleton
     fun provideOompaLoompaRepository(
         oompaLoompaApi: OompaLoompaApi,
+        oompaLoompaDao: OompaLoompaDao,
         errorHandler: ErrorHandler
     ): OompaLoompaRepository {
-        return OompaLoompaRepositoryImp(oompaLoompaApi, errorHandler)
+        return OompaLoompaRepositoryImp(oompaLoompaApi, oompaLoompaDao, errorHandler)
     }
 
     @Provides

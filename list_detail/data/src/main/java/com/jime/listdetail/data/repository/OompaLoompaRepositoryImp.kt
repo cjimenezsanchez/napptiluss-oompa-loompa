@@ -1,5 +1,6 @@
 package com.jime.listdetail.data.repository
 
+import com.jime.listdetail.data.local.OompaLoompaDao
 import com.jime.listdetail.data.mapper.toDomain
 import com.jime.listdetail.data.remote.OompaLoompaApi
 import com.jime.listdetail.domain.Resource
@@ -15,6 +16,7 @@ import javax.inject.Inject
 
 class OompaLoompaRepositoryImp @Inject constructor(
     private val api: OompaLoompaApi,
+    private val dao: OompaLoompaDao,
     private val errorHandler: ErrorHandler,
     @IoDispatcher private val iODispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : OompaLoompaRepository {
