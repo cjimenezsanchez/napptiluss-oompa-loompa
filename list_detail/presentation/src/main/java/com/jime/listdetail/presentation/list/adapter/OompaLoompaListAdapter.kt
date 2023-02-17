@@ -93,7 +93,7 @@ class OompaLoompaListAdapter(
         private val profilePic: ImageView = binding.profilePic
 
         fun bind(oompaLoompa: OompaLoompa) {
-            val fullName = "[${oompaLoompa.id}] ${oompaLoompa.name} ${oompaLoompa.lastName}"
+            val fullName = "${oompaLoompa.name} ${oompaLoompa.lastName}"
             name.text = fullName
             email.text = oompaLoompa.email
             val icon =
