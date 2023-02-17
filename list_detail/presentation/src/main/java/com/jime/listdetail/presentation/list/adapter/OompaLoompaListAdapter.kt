@@ -21,7 +21,6 @@ class OompaLoompaListAdapter(
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     init {
-        //for loading ui purposes, maybe consider a cleaner approach for loading indicator
         addItems(listOf(emptyItem()))
     }
 

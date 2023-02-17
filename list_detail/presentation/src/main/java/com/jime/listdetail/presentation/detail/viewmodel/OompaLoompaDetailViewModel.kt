@@ -14,29 +14,23 @@ import javax.inject.Inject
 
 @HiltViewModel
 class OompaLoompaDetailViewModel @Inject constructor(
-    private val oompaLoompaRepository: OompaLoompaRepository,
-    @IoDispatcher private val iODispatcher: CoroutineDispatcher
+    private val oompaLoompaRepository: OompaLoompaRepository
 ) : ViewModel() {
 
     private var _oompaLoompa: MutableLiveData<Resource<OompaLoompaDetail>> = MutableLiveData()
-    val oompaLoompa: LiveData<Resource<OompaLoompaDetail>> = _oompaLoompa
+    val oompaLoompa: LiveData<Resource<OompaLoompaDetail>> get() = _oompaLoompa
 
     private var _progressVisible: MutableLiveData<Boolean> = MutableLiveData()
-    val progressVisible: LiveData<Boolean> = _progressVisible
+    val progressVisible: LiveData<Boolean> get() = _progressVisible
 
     fun getOompaLoompaById(id: Int) {
         if (oompaLoompaAlreadyLoaded()) {
             return
         }
-
         viewModelScope.launch {
             _progressVisible.value = true
-
-            val result = withContext(iODispatcher) {
-                oompaLoompaRepository.fetchOompaLoompaById(id)
-            }
+            _oompaLoompa.value = oompaLoompaRepository.fetchOompaLoompaById(id)
             _progressVisible.value = false
-            _oompaLoompa.value = result
         }
     }
 

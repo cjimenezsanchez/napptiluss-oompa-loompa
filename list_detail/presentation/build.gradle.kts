@@ -68,6 +68,6 @@ dependencies {
     testImplementation(Testing.mockito)
     androidTestImplementation(Testing.mockitoAndroid)
     testImplementation(Testing.mockitoInline)
-    testImplementation(Testing.coroutines)
+    testImplementation(Coroutine.testing)
     testImplementation(Testing.archCore)
 }

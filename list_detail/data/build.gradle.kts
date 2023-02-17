@@ -41,7 +41,7 @@ dependencies {
     implementation(project(Modules.listDetailDomain))
 
     implementation(AndroidX.core)
-    implementation(Kotlin.coroutines)
+    implementation(Coroutine.coroutines)
 
     implementation(Retrofit.retrofit)
     implementation(Retrofit.loggingInterceptor)

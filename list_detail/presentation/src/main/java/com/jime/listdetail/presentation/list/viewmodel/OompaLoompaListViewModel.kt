@@ -23,8 +23,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class OompaLoompaListViewModel @Inject constructor(
-    private val oompaLoompaRepository: OompaLoompaRepository,
-    @IoDispatcher private val iODispatcher: CoroutineDispatcher
+    private val oompaLoompaRepository: OompaLoompaRepository
 ) : ViewModel() {
 
     private var _navigateToDetail: MutableLiveData<Event<Int>> = MutableLiveData()
@@ -46,16 +45,15 @@ class OompaLoompaListViewModel @Inject constructor(
 
         viewModelScope.launch {
             _uiState.value = ListUiState(State.LOADING)
-            val result = withContext(iODispatcher) {
-                oompaLoompaRepository.fetchOompaLoompaByPage(page)
-            }
 
-            when (result) {
-                is Resource.Success -> {
-                    onSuccessResult(result)
-                }
-                is Resource.Failure -> {
-                    onFailedResult(result)
+            oompaLoompaRepository.fetchOompaLoompaByPage(page).let { result ->
+                when (result) {
+                    is Resource.Success -> {
+                        onSuccessResult(result)
+                    }
+                    is Resource.Failure -> {
+                        onFailedResult(result)
+                    }
                 }
             }
         }
@@ -79,7 +77,8 @@ class OompaLoompaListViewModel @Inject constructor(
             state = State.ERROR,
             error = result.error,
             totalPages = _uiState.value?.totalPages ?: -1,
-            currentPage = _uiState.value?.currentPage ?: 1)
+            currentPage = _uiState.value?.currentPage ?: 1
+        )
     }
 
     private fun getFilteredList(
@@ -99,7 +98,8 @@ class OompaLoompaListViewModel @Inject constructor(
         _uiState.value?.let {
             _uiState.value = it.copy(
                 list = getFilteredList(oompaLoompaList, newFilter),
-                selectedFilter = newFilter)
+                selectedFilter = newFilter
+            )
         }
     }
 
